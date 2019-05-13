@@ -45,7 +45,7 @@ Follow these steps for completing your project.
 After a set of interviews with the potential users of the solution, we gathered the following information about the functionality of the game's enhancing system. Your job is to add tests to `./enhancing/enhancer.spec.js` and code to `./enhancing/enhancer.js` to implement the requirements; `./enhancing/enhancer.js` exports an object that has the following methods:
 
 - [x] a `repair(item)` method that accepts an `item` object and **returns a new item** with the durability restored to 100. This method is the simplest of the three and would be a **good starting point** on this project.
-- [ ] a `success(item)` method that accepts an `item` object and **returns a new item** object modified according to the rules defined by the client for enhancement success.
+- [x] a `success(item)` method that accepts an `item` object and **returns a new item** object modified according to the rules defined by the client for enhancement success.
 - [ ] a `fail(item)` method that accepts an `item` object and **returns a new item** object modified according to the rules defined by the client for enhancement failure.
 - [ ] a `get()` method for use when working on the stretch problem.
 
@@ -59,9 +59,9 @@ The following sections list information provided by the client about `items` and
 
 ### When enhancement succeeds
 
-- [ ] The item's enhancement increases by 1.
-- [ ] If the item enhancement level is 20, the enhancement level is not changed.
-- [ ] The durability of the item is not changed.
+- [x] The item's enhancement increases by 1.
+- [x] If the item enhancement level is 20, the enhancement level is not changed.
+- [x] The durability of the item is not changed.
 
 ### When enhancement fails
 

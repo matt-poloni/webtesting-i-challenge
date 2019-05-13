@@ -40,6 +40,7 @@ function Item(name, dur, enh) {
   this.enhancement = this.enhCoerce(enh);
 }
 Item.prototype.nameCoerce = function(name = 'Item') {
+  if(typeof name !== 'string') name = 'Item';
   return `${name}`;
 }
 Item.prototype.durCoerce = function(dur = 50) {

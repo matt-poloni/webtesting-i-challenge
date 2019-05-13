@@ -7,6 +7,66 @@ const {
 } = require('./enhancer.js');
 
 describe('enhancer.js', () => {
+  // Repair
+  describe('repair() method', () => {
+    it('should restore durability to 100', () => {
+      const item = new Item('Item', 0, 0);
+      expect(repair(item).durability).toBe(100);
+    })
+  })
+
+  // Succeed
+  describe('succeed() method', () => {
+    it('should increase enhancement by 1 if < 20', () => {
+      const item = new Item('Item', 50, 0);
+      expect(succeed(item).enhancement).toBe(1);
+    })
+
+    it('should not increase enhancement if already === 20', () => {
+      const item = new Item('Item', 50, 20);
+      expect(succeed(item).enhancement).toBe(20);
+    })
+
+    it("should not change the item's durability", () => {
+      const item = new Item('Item', 50, 20);
+      expect(succeed(item).durability).toBe(50);
+      item.enhancement = 0;
+      expect(succeed(item).durability).toBe(50);
+    })
+  })
+  
+  // Fail
+  describe('fail() method', () => {
+    it('should decrease durability by 5 if enhancement < 15', () => {
+      const item = new Item('Item', 100, 0);
+      expect(fail(item).durability).toBe(95);
+    })
+
+    it('should decrease durability by 10 if enhancement >= 15', () => {
+      const item = new Item('Item', 100, 16);
+      expect(fail(item).durability).toBe(90);
+    })
+
+    it('should decrease enhancement by 1 if > 16', () => {
+      const item = new Item('Item', 100, 20);
+      expect(fail(item).enhancement).toBe(19);
+    })
+  })
+
+  // Get
+  describe('get() method', () => {
+    it('should not modify the name if enhancement === 0', () => {
+      const item = new Item('Item', 50, 0);
+      expect(get(item).name).toBe('Item');
+    })
+
+    it('should properly modify names of items w/ enhancement > 0', () => {
+      const item = new Item('Item', 50, 20);
+      expect(get(item).name).toBe('[+20] Item');
+    })
+  })
+
+  // Items
   describe('Item class', () => {
     describe('name property', () => {
       it('should have a name property', () => {
@@ -47,61 +107,6 @@ describe('enhancer.js', () => {
         const item = new Item('Item', 50, -1);
         expect(item.enhancement).not.toBeLessThan(0);
       })
-    })
-  })
-
-  describe('repair() method', () => {
-    it('should restore durability to 100', () => {
-      const item = new Item('Item', 0, 0);
-      expect(repair(item).durability).toBe(100);
-    })
-  })
-
-  describe('succeed() method', () => {
-    it('should increase enhancement by 1 if < 20', () => {
-      const item = new Item('Item', 50, 0);
-      expect(succeed(item).enhancement).toBe(1);
-    })
-
-    it('should not increase enhancement if already === 20', () => {
-      const item = new Item('Item', 50, 20);
-      expect(succeed(item).enhancement).toBe(20);
-    })
-
-    it("should not change the item's durability", () => {
-      const item = new Item('Item', 50, 20);
-      expect(succeed(item).durability).toBe(50);
-      item.enhancement = 0;
-      expect(succeed(item).durability).toBe(50);
-    })
-  })
-  
-  describe('fail() method', () => {
-    it('should decrease durability by 5 if enhancement < 15', () => {
-      const item = new Item('Item', 100, 0);
-      expect(fail(item).durability).toBe(95);
-    })
-
-    it('should decrease durability by 10 if enhancement >= 15', () => {
-      const item = new Item('Item', 100, 16);
-      expect(fail(item).durability).toBe(90);
-    })
-
-    it('should decrease enhancement by 1 if > 16', () => {
-      const item = new Item('Item', 100, 20);
-      expect(fail(item).enhancement).toBe(19);
-    })
-  })
-
-  describe('get() method', () => {
-    it('should not modify the name if enhancement === 0', () => {
-      const item = new Item('Item', 50, 0);
-      expect(get(item).name).toBe('Item');
-    })
-
-    it('should properly modify names of items w/ enhancement > 0', () => {
-      const item = new Item('Item', 50, 20);
-      expect(get(item).name).toBe('[+20] Item');
     })
   })
 })

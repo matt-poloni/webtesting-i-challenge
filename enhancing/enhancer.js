@@ -12,7 +12,15 @@ function succeed(item) {
 }
 
 function fail(item) {
-  return { ...item };
+  const res = { ...item }
+  if(res.enhancement < 15) {
+    return { ...res, durability: res.durability - 5 };
+  } else {
+    res.durability -= 10;
+    return res.enhancement > 16
+      ? { ...res, enhancement: --res.enhancement }
+      : res;
+  }
 }
 
 function repair(item) {

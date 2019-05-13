@@ -31,4 +31,21 @@ describe('enhancer.js', () => {
       expect(succeed(item).durability).toBe(50);
     })
   })
+  
+  describe('fail() method', () => {
+    it('should decrease durability by 5 if enhancement < 15', () => {
+      const item = { durability: 100, enhancement: 0 };
+      expect(fail(item).durability).toBe(95);
+    })
+
+    it('should decrease durability by 10 if enhancement >= 15', () => {
+      const item = { durability: 100, enhancement: 16 };
+      expect(fail(item).durability).toBe(90);
+    })
+
+    it('should decrease enhancement by 1 if > 16', () => {
+      const item = { durability: 100, enhancement: 20 };
+      expect(fail(item).enhancement).toBe(19);
+    })
+  })
 })

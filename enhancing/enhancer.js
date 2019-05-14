@@ -8,52 +8,49 @@ module.exports = {
 
 function succeed(item) {
   return item.enhancement < 20
-    ? { ...item, enhancement: ++item.enhancement }
+    ? new Item(item.name, item.durability, ++item.enhancement)
     : item;
 }
 
 function fail(item) {
-  const res = { ...item }
+  const res = new Item(item.name, item.durability, item.enhancement);
   if(res.enhancement < 15) {
-    return { ...res, durability: res.durability - 5 };
+    res.durability = Math.max(0, res.durability - 5);
   } else {
-    res.durability -= 10;
-    return res.enhancement > 16
-      ? { ...res, enhancement: --res.enhancement }
-      : res;
+    res.durability = Math.max(0, res.durability - 10);
+    if(res.enhancement > 16) {
+      --res.enhancement;
+    }
   }
+  return res;
 }
 
 function repair(item) {
-  return { ...item, durability: 100 };
+  const res = new Item(item.name, 100, item.enhancement);
+  return res;
 }
 
 function get(item) {
-  return item.enhancement > 0
-    ? { ...item, name: `[+${item.enhancement}] ${item.name}` }
-    : item;
+  if(item.enhancement > 0) {
+    const res = new Item(`[+${item.enhancement}] ${item.name}`, item.durability, item.enhancement);
+    return res;
+  }
+  return item;
 }
 
 function Item(name, dur, enh) {
   this.name = this.nameCoerce(name);
-  this.durability = this.durCoerce(dur);
-  this.enhancement = this.enhCoerce(enh);
+  this.durability = this.numCoerce(dur, 0, 100, 50);
+  this.enhancement = this.numCoerce(enh, 0, 20, 0);
 }
 Item.prototype.nameCoerce = function(name = 'Item') {
   if(typeof name !== 'string') name = 'Item';
   return `${name}`;
 }
-Item.prototype.durCoerce = function(dur = 50) {
-  dur = Number(dur);
-  if(`${dur}` === 'NaN') dur = 50;
-  if(dur < 0) return 0
-  else if(dur > 100) return 100
-  else return dur;
-}
-Item.prototype.enhCoerce = function(enh = 0) {
-  enh = Number(enh);
-  if(`${enh}` === 'NaN') enh = 0;
-  if(enh < 0) return 0
-  else if(enh > 20) return 20
-  else return enh;
+Item.prototype.numCoerce = function(num, min, max, def) {
+  num = Number(num);
+  if(`${num}` === 'NaN') num = def;
+  if(num < min) return min
+  else if(num > max) return max
+  else return num;
 }

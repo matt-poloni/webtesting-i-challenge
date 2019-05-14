@@ -13,7 +13,7 @@ function succeed(item) {
 }
 
 function fail(item) {
-  const res = new Item(item.name, item.durability, item.enhancement);
+  const res = Object.assign(new Item(), item);
   if(res.enhancement < 15) {
     res.durability = Math.max(0, res.durability - 5);
   } else {
